@@ -1,0 +1,11 @@
+
+from flask import Blueprint
+from flask import render_template, request
+from flask import request, jsonify
+
+page = Blueprint('page', __name__)
+
+
+@page.route("/")
+def index():
+	return "hello world"
