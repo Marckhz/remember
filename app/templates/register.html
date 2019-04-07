@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% from 'helpers/_forms.html' import render_field %}
+
+
+{% block container %}
+	<div class="col-md-4 offset-md-1">
+
+		<form action = "/register" method="post">
+
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+			<div class="form-group">
+				{{ render_field(form.name, class='form-control', placeholder='name') }}						
+			</div>
+			<div class="form-group">
+				{{ render_field(form.profil, class='form-control', placeholder='por ejemplo "Lic. Informatica" ') }}						
+			</div>
+			<div class="form-group">
+				{{ render_field(form.experience, class='form-control', placeholder=' por ejemplo: "5 years" ') }}						
+			</div>
+			<div class="form-group">
+				{{ render_field(form.focus_area, class='form-control', placeholder='por ejemplo: "Ciencia de Datos" ') }}						
+			</div>
+			<div class="form-group">
+				{{ render_field(form.industry, class='form-control', placeholder='por ejemplo: "Tecnologia" ') }}						
+			</div>
+
+
+			<button type="submit" class="btn btn-primary" name="this-button">Submit</button>
+			
+		</form>
+	</div>
+
+{% endblock %}

@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Hello</title>
-</head>
-<body>
-	<h1>Hello World</h1>
-</body>
-</html>
+{% extends 'layout.html' %}
+{% from 'helpers/_forms.html' import render_field %}
+
+{% block container %}
+
+
+	
+	<div class="cold-md-4 offset-md-1">
+		<h1>Login</h1>
+	
+		<form action = "/login" method="post">
+			
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+			<div class="form-group">
+				{{ render_field(form.email, class = "form-control", placeholder=" Enter Email" ) }}
+
+			</div>
+	
+			<button type ="submit" class="btn btn-primary" name="button" >Submit</button>		
+		</form>
+	</div>
+
+{% endblock %}
