@@ -4,6 +4,7 @@ from flask_wtf.csrf import CSRFProtect
 
 from flask_pymongo import PyMongo 
 from flask_mail import Mail
+from flask_login import LoginManager
 
 
 
@@ -19,6 +20,8 @@ app = Flask(__name__)
 boostrap = Bootstrap()
 csrf = CSRFProtect()
 mail = Mail()
+login_manager = LoginManager()
+
 
 
 
@@ -36,6 +39,7 @@ def create_app(config):
 	boostrap.init_app(app)
 	csrf.init_app(app)
 	mail.init_app(app)
+	login_manager.init_app(app)
 	app.register_blueprint(page)
 
 	return app

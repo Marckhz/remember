@@ -17,3 +17,6 @@ class RegisterForm(Form):
 	industry = StringField('Industria',[validators.Length(min=6, max=50)])
 
 
+class TokenForm(Form):
+
+	token_form = StringField('Token', [ validators.Length(min=6, max=20) ])
