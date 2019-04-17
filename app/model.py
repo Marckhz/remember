@@ -1,29 +1,20 @@
 from werkzeug.security import check_password_hash
+from flask_login import UserMixin
 
 
-class User():
+class User(UserMixin):
 
-	def __init__(self, username):
+	def __init__(self, email):
 
-		self.username = username
+		self.email = email
 
-	def is_authenticated(self):
 
+	def is_authenticated():
 		return True
 
-	def is_activate(self):
-
+	def is_active(self):
 		return True
-
-
-	def is_anonymous(self):
-		return True
-
 
 	def get_id(self):
 
-		return  self.username
-
-	@staticmethod
-	def validate_login(email):
-		return email
+		return self.email

@@ -8,7 +8,10 @@
 		<form action = "/register" method="post">
 
 			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-
+			
+			<div class="form-group">
+				{{ render_field(form.email, class = 'form-control', placeholder= 'email', value = current_user.email, readonly=true) }}
+			</div>
 			<div class="form-group">
 				{{ render_field(form.name, class='form-control', placeholder='name') }}						
 			</div>
@@ -24,9 +27,7 @@
 			<div class="form-group">
 				{{ render_field(form.industry, class='form-control', placeholder='por ejemplo: "Tecnologia" ') }}						
 			</div>
-			<div>
-				<p> {{ session }} </p>
-			</div>
+			
 
 
 			<button type="submit" class="btn btn-primary" name="this-button">Submit</button>

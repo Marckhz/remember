@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% from 'helpers/_forms.html' import render_field %}
+
+
+{% block container %}
+	
+	{% for index in database %}
+		{% for item in index.added_problems %}
+			{{ item.problemName }}
+			
+		{% endfor%}
+
+		{% for item in index.profile %}
+			{{ item.name }}
+		{% endfor %}
+
+	{% endfor %}	
+
+{% endblock %}

@@ -1,6 +1,9 @@
 from itsdangerous import URLSafeTimedSerializer
 
 from . import app
+import random
+
+
 
 
 def generate_confirmation_email(email):
@@ -22,6 +25,22 @@ def confirm_token(token, expiration = 3600):
 		return False
 
 	return email
+
+def randomize(email):
+
+
+	empty_list = []
+	randoms = random.sample(range(10000), k = 60)
+	z = ''.join(str(i) for i in randoms )
+	psw = email + z
+	encode = base64.b64encode(psw.encode('ascii'))
+	#print(encode)
+	
+	#decode = base64.b64decode(encode).decode('ascii')
+	
+	return encode
+
+
 
 
 
