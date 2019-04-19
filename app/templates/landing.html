@@ -3,12 +3,3 @@
 
 
 
-{% block container %}
-	
-	<h1>Hola</h1>
-	
-	{% if current_user.is_authenticated %}
- 		 Hi {{ current_user.email }}!
-	{% endif %}
-
-{% endblock %}

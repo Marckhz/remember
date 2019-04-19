@@ -6,8 +6,7 @@
 	
 	{% for index in database %}
 		{% for item in index.added_problems %}
-			{{ item.problemName }}
-			
+			<a href="{{ url_for('.get_problem', problem = item.problemName) }}">{{ item.problemName }}</a>			
 		{% endfor%}
 
 		{% for item in index.profile %}

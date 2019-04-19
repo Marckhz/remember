@@ -12,8 +12,6 @@ from . import mail
 import re
 import pprint
 
-#from flask_login import LoginManager
-
 from flask_login import login_required, login_user
 
 from . import login_manager
@@ -27,7 +25,8 @@ from .forms import LoginForm
 from .forms import RegisterForm
 from .forms import TokenForm
 from .forms import ProblemForm
-
+from .forms import SearchBar
+from .forms import ImageForm
 
 from .model import User
 
@@ -43,9 +42,19 @@ def load_user(user_id):
   return User(user_id)
 
 
-@page.route("/")
+@page.route('/', methods =['GET', 'POST'])
 def index():
-	return "hello world"
+
+  image_form = ImageForm(request.form)
+  form = LoginForm()
+
+  if request.method == 'POST':
+    image_data = image_form.image.data
+    print(image_data)
+    #encode_img = base64.b64encode(image_data.read() )
+    print(encode_img)
+
+  return render_template('home.html', image_form=image_form, form = form)
 
 
 @page.route('/hello')
@@ -96,7 +105,6 @@ def register():
 @page.route('/login', methods = ['GET', 'POST'])
 def login():
 
-
   form = LoginForm(request.form)
   find_user = None
 
@@ -108,14 +116,15 @@ def login():
         welcome_email(instance_user.email)
         login_user(instance_user)
         session['username'] = instance_user.email
-        flash('Hemos enviado un link para su inicio de sesion') 
+        print(instance_user.email)
+        flash('Hemos enviado un link para su inicio de sesion', 'success') 
 
     if find_user is None:
       mongo.db.users.insert_one({"email":form.email.data})
-      flash('Lo estamos redireccionando para completar su registro')
+      flash('Lo estamos redireccionando para completar su registro', 'primary')
       return redirect(url_for('page.register'))
 
-  return render_template('index.html', title= 'Login', form = form)
+  return render_template('layout.html', title= 'Login', form = form)
 
 
 @page.route('/add_a_problem', methods = ['GET', 'POST'])
@@ -147,3 +156,21 @@ def all_problem():
   database = mongo.db.users.find({})
 
   return render_template('all_problem.html', title='all problem', database=database)
+
+
+
+@page.route('/problem_description/<problem>')
+def get_problem(problem):
+
+  for index in mongo.db.users.find({}):
+    email = index['email']
+    for item in index['added_problems']:
+      problem = item['problemName']
+      industry = item['industry']
+      stage = item['stage']
+
+  return render_template('show.html', problem=problem, email = email, industry=industry, stage=stage, title='show')
+
+
+
+

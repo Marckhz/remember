@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% from 'helpers/_forms.html' import render_field %}
+
+
+{% block container %}
+	
+	<div class="jumbotron jumbotron-fluid">
+		<div class="overlay"></div>
+				<div class="container text-black">
+					<h1 class="display-4">Hello</h1>
+					<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores quod, unde ipsum explicabo repudiandae alias velit similique vitae placeat natus quibusdam, ea dolores. Amet omnis dolores ipsum et odit, atque.</p>
+					<a class="btn btn-primary btn-lg" href="#" role="button">Join</a>
+				</div>
+	</div>
+
+	<section>
+		<form action = "/" method="post">
+					<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>		
+						<div class="form-group">
+							{{ render_field(image_form.image, class = "form-control") }}			
+						</div>
+					<button type ="submit" class="btn btn-primary btn-block" name="button" >Submit</button>
+				</form>
+			</div>
+		
+	</section>
+
+
+{% endblock %}

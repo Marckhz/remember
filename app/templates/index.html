@@ -2,23 +2,23 @@
 {% from 'helpers/_forms.html' import render_field %}
 
 {% block container %}
-
-
-	
-	<div class="cold-md-4 offset-md-1">
-		<h1>Login</h1>
-	
-		<form action = "/login" method="post">
-			
-			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-
-			<div class="form-group">
-				{{ render_field(form.email, class = "form-control", placeholder=" Enter Email" ) }}
-
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-6">
+				<h1 class="text-center">Login</h1>
 			</div>
-	
-			<button type ="submit" class="btn btn-primary" name="button" >Submit</button>		
-		</form>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-6">
+				<form action = "/login" method="post">
+					<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>		
+						<div class="form-group">
+							{{ render_field(form.email, class = "form-control", placeholder=" Enter Email" ) }}			
+						</div>
+					<button type ="submit" class="btn btn-primary btn-block" name="button" >Submit</button>
+				</form>
+			</div>
+		</div>
 	</div>
 
 {% endblock %}

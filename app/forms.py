@@ -6,6 +6,21 @@ import re
 
 
 
+class ImageForm(Form):
+
+	image = FileField(u'Image File', [validators.regexp(r'^[^/\\]\.jpg$')])
+
+	def validate_image(form, field):
+		if field.data:
+			field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
+
+
+class SearchBar(Form):
+
+	search_bar = StringField([validators.Length(min=1, max = 1000000)])
+
+
+
 class ProblemForm(Form):
 
 	problem_description = StringField('Problem Description',[validators.Length(min=6, max = 1000000)], widget=TextArea() )
