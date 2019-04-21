@@ -8,7 +8,7 @@ import re
 
 class ImageForm(Form):
 
-	image = FileField(u'Image File', [validators.regexp(r'^[^/\\]\.jpg$')])
+	image = FileField(u'file', [validators.regexp(r'^[^/\\]\.jpg$')])
 
 	def validate_image(form, field):
 		if field.data:

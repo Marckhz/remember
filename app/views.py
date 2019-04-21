@@ -8,6 +8,9 @@ from pymongo import ReturnDocument
 from . import mongo
 from . import mail
 
+import os
+from io import BytesIO
+
 
 import re
 import pprint
@@ -31,6 +34,9 @@ from .forms import ImageForm
 from .model import User
 
 import base64
+from  PIL import Image
+
+
 
 
 page = Blueprint('page', __name__)
@@ -45,16 +51,11 @@ def load_user(user_id):
 @page.route('/', methods =['GET', 'POST'])
 def index():
 
-  image_form = ImageForm(request.form)
   form = LoginForm()
 
-  if request.method == 'POST':
-    image_data = image_form.image.data
-    print(image_data)
-    #encode_img = base64.b64encode(image_data.read() )
-    print(encode_img)
+  query = mongo.db.problems.find({})
 
-  return render_template('home.html', image_form=image_form, form = form)
+  return render_template('home.html', form = form, query = query)
 
 
 @page.route('/hello')
@@ -93,7 +94,8 @@ def register():
                                         'industry':form.industry.data
 																			}] 
 																		}
-															})													
+															})		
+
 
 		flash("Yay Hemos actualizado tu perfil, de momento enviaremos un email para que puedas ingresar (: ")
 		welcome_email(session['username'])
@@ -129,26 +131,25 @@ def login():
 
 @page.route('/add_a_problem', methods = ['GET', 'POST'])
 def add_problem():
-	
-	form = ProblemForm(request.form)
 
-	if request.method == 'POST':
-		find_user = mongo.db.users.find_one_and_update({"email":session['username']},
-                                                    {"$set":{"added_problems":
-                                                          [{
-                                                            "problemName":form.problem_description.data,
-                                                            "industry":form.industry.data,
-                                                            "stage":form.stage.data,
-                                                            "company":form.company.data,
-                                                            "company_tagline":form.company_tagline.data,
-                                                            "ceo":form.ceo.data
-                                                          }]
-                                                    } }
-                                                  )
+  problemForm = ProblemForm(request.form )
+  form = LoginForm()
+  if request.method == 'POST':  
+    file = request.files['file']
+    file_to_b64 = base64.b64encode(file.read() )
 
-
-	return render_template('add_problem.html', title='add a problem', form = form)
-
+    #falta un campo de descripcion
+    find_user = mongo.db.problems.insert({"email":session['username'],
+                    "problemName":problemForm.problem_description.data,
+                    "industry":problemForm.industry.data,
+                    "stage":problemForm.stage.data,
+                    "company":problemForm.company.data,
+                    "company_tagline":problemForm.company_tagline.data,
+                    "image":file_to_b64.decode("utf-8")
+              
+              })
+    print(file_to_b64)
+  return render_template('add_problem.html', title='add problem', form=form, problemForm= problemForm)
 
 @page.route('/all_problems', methods = ['GET'])
 def all_problem():
